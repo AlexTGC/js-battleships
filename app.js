@@ -21,6 +21,7 @@ function createBoard(color, user) {
     const gameBoardContainer = document.createElement('div')
     gameBoardContainer.classList.add('game-board')
     gameBoardContainer.style.backgroundColor = 'pink'
+    gameBoardContainer.id = user
 
     for (let i = 0; i < width * width; i++) {
         const block = document.createElement('div')
@@ -114,7 +115,7 @@ const optionShips = Array.from(optionContainer.children)
 optionShips.forEach(optionShip => optionShip.addEventListener('dragstart', dragStart))
 
 const allPlayerBlocks = document.querySelectorAll('#player div')
-allPlayerBlocks.forEach(player => {
+allPlayerBlocks.forEach(playerBlock => {
     playerBlock.addEventListener('dragover', dragOver)
     playerBlock.addEventListener('drop', dropShip)
 })
@@ -190,7 +191,7 @@ function handleClick(e) {
             playerHits.push(...classes)
             checkScore('player', playerHits, playerSunkShips)
         }
-        if (e.target.classList.contains('taken')) {
+        if (!e.target.classList.contains('taken')) {
             infoDisplay.textContent = 'Nothing hit this time.'
             e.target.classList.add('empty')
         }
@@ -222,7 +223,7 @@ function computerGo() {
             ) {
                 allBoardBlocks[randomGo].classList.add('boom')
                 infoDisplay.textContent = 'The computer hit your ship!'
-                let classes = Array.from(allBoardBlocks[randomGo].target.classList)
+                let classes = Array.from(allBoardBlocks[randomGo].classList)
                 classes = classes.filter(className => className !== 'block')
                 classes = classes.filter(className => className !== 'boom')
                 classes = classes.filter(className => className !== 'taken')
